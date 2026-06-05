@@ -18,10 +18,9 @@ const commands = new Collection();
 
 for (const file of COMMAND_FILES) {
     const filePath = path.join(COMMANDS_PATH, file);
-    import(filePath).then((command: Command) => {
-        if (!command.data || !command.execute) throw new Error(`command ${file} is missing a required "data" or "execute" property.`);
-        commands.set(command.data.name, command);
-    });
+    const command: Command = await import(filePath);
+    if (!command.data || !command.execute) throw new Error(`command ${file} is missing a required "data" or "execute" property.`);
+    commands.set(command.data.name, command);
 }
 
 client.on(Events.InteractionCreate, async interaction => {

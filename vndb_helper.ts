@@ -29,6 +29,7 @@ type AggregateDataEntry = {
     tags: {
         id: string,
         rating: number,
+        category: string,
     }[]
 }
 
@@ -68,7 +69,7 @@ export function getTagName(tagId: string): Promise<string> {
     }).then((data: any) => data.results[0]?.name);
 }
 
-export async function getAggregateData(list: VnListEntry[]) {
+export async function getAggregateData(list: VnListEntry[], ero: boolean = false): Promise<AggregateData> {
     const aggregate: AggregateData = {
         total_length_minutes: 0,
         tags: new Map<string, { count: number, total_rating: number }>(),
@@ -77,7 +78,7 @@ export async function getAggregateData(list: VnListEntry[]) {
     for (const entry of list) {
         const data: VnResponse = await vndbRequest('vn', {
             filters: ["id", "=", entry.id],
-            fields: "length_minutes, tags.id, tags.rating",
+            fields: "length_minutes, tags.id, tags.rating, tags.category",
         });
 
         if (data.results.length === 0) continue;
@@ -86,7 +87,9 @@ export async function getAggregateData(list: VnListEntry[]) {
         // aggregate.total_length_minutes += vnData.length_minutes || 0;
         if (entry.labels.some(label => label.label === "Finished")) aggregate.total_length_minutes += vnData.length_minutes || 0;
 
-        for (const tag of vnData.tags) {
+        const tag_categories = ero ? ["cont", "ero"] : ["cont"];
+        const boring_tags = ["g133", "g848"];
+        for (const tag of vnData.tags.filter(x => tag_categories.includes(x.category) && !boring_tags.includes(x.id))) {
             if (!aggregate.tags.has(tag.id)) aggregate.tags.set(tag.id, { count: 0, total_rating: 0 });
             const tagData = aggregate.tags.get(tag.id)!;
 
@@ -95,6 +98,7 @@ export async function getAggregateData(list: VnListEntry[]) {
         }
     };
 
+    console.log(Array.from(aggregate.tags).sort((a, b) => (b[1].total_rating) - (a[1].total_rating)));
     return aggregate;
 };
 

@@ -15,6 +15,9 @@ export const data = new SlashCommandBuilder()
     ).addStringOption(option =>
         option.setName('display_name')
             .setDescription('the name you want displayed on the widget (optional)')
+    ).addBooleanOption(option =>
+        option.setName('include_ero_tags')
+            .setDescription('whether to include erotic tags in the favourite tag calculation (defaults to false)')
     );
 
 export async function execute(interaction: Interaction) {
@@ -36,7 +39,7 @@ export async function execute(interaction: Interaction) {
         dynamic_data.push({ type: WidgetDataTypes.String, name: `rated_${i + 1}_name` as any, value: top_three[i]!.vn.title });
     };
 
-    const aggregate = await vndb.getAggregateData(list);
+    const aggregate = await vndb.getAggregateData(list, interaction.options.getBoolean('include_ero_tags') || false);
     // const tags_by_rating = Array.from(aggregate.tags.entries()).sort((a, b) => (a[1].total_rating / a[1].count) - (b[1].total_rating / b[1].count));
         const tags_by_rating = Array.from(aggregate.tags.entries()).sort((a, b) => (b[1].total_rating) - (a[1].total_rating));
 
