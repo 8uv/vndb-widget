@@ -41,7 +41,7 @@ export async function execute(interaction: Interaction) {
 
     const aggregate = await vndb.getAggregateData(list, interaction.options.getBoolean('include_ero_tags') || false);
     // const tags_by_rating = Array.from(aggregate.tags.entries()).sort((a, b) => (a[1].total_rating / a[1].count) - (b[1].total_rating / b[1].count));
-        const tags_by_rating = Array.from(aggregate.tags.entries()).sort((a, b) => (b[1].total_rating) - (a[1].total_rating));
+    const tags_by_rating = Array.from(aggregate.tags.entries()).sort((a, b) => (b[1].total_rating) - (a[1].total_rating));
 
     dynamic_data.push({ type: WidgetDataTypes.String, name: "duration_read_formatted", value: formatTime(aggregate.total_length_minutes * 60) });
     dynamic_data.push({ type: WidgetDataTypes.String, name: "favourite_tag", value: tags_by_rating[0]?.[0] ? await vndb.getTagName(tags_by_rating[0][0]) : "--" });

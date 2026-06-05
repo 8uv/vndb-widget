@@ -98,18 +98,6 @@ export async function getAggregateData(list: VnListEntry[], ero: boolean = false
         }
     };
 
-    console.log(Array.from(aggregate.tags).sort((a, b) => (b[1].total_rating) - (a[1].total_rating)));
+    // console.log(Array.from(aggregate.tags).sort((a, b) => (b[1].total_rating) - (a[1].total_rating)));
     return aggregate;
 };
-
-
-// const test_data = await vndbRequest('vn', {
-//     filters: ["id", "=", "v3144"],
-//     fields: "tags.id, tags.rating",
-// });
-// const test_data = (await getVnList('u321093')).results;
-// console.log(test_data);
-// const test_aggregate = await getAggregateData(test_data);
-// console.log(test_aggregate);
-// console.log(test_data.map((x: any) => x.labels));
-// console.log(test_data.results.sort((a: any, b: any) => b.lastmod - a.lastmod));
