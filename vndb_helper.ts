@@ -83,7 +83,8 @@ export async function getAggregateData(list: VnListEntry[]) {
         if (data.results.length === 0) continue;
         const vnData: AggregateDataEntry = data.results[0]!;
 
-        aggregate.total_length_minutes += vnData.length_minutes || 0;
+        // aggregate.total_length_minutes += vnData.length_minutes || 0;
+        if (entry.labels.some(label => label.label === "Finished")) aggregate.total_length_minutes += vnData.length_minutes || 0;
 
         for (const tag of vnData.tags) {
             if (!aggregate.tags.has(tag.id)) aggregate.tags.set(tag.id, { count: 0, total_rating: 0 });
