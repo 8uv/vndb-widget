@@ -47,6 +47,7 @@ export async function execute(interaction: Interaction) {
     dynamic_data.push({ type: WidgetDataTypes.String, name: "favourite_tag", value: tags_by_rating[0]?.[0] ? await vndb.getTagName(tags_by_rating[0][0]) : "--" });
 
     const vns_by_updated = list.sort((a, b) => b.lastmod - a.lastmod);
+    // TODO use finished data instead of modified timestamp for recently_finished
     dynamic_data.push({ type: WidgetDataTypes.String, name: "recently_finished", value: vns_by_updated.find(x => x.labels.some(label => label.label === "Finished"))?.vn.title || "--" });
     dynamic_data.push({ type: WidgetDataTypes.String, name: "recently_wishlisted", value: vns_by_updated.find(x => x.labels.some(label => label.label === "Wishlist"))?.vn.title || "--" });
     dynamic_data.push({ type: WidgetDataTypes.String, name: "cr_title", value: vns_by_updated.find(x => x.labels.some(label => label.label === "Playing"))?.vn.title || "--" });
