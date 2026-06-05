@@ -11,16 +11,17 @@ const commands: any[] = [];
 
 for (const file of COMMAND_FILES) {
     const filePath = path.join(COMMANDS_PATH, file);
-    import(filePath).then((command: any) => {
-        if (!command.data || !command.execute) throw new Error(`command ${file} is missing a required "data" or "execute" property.`);
-        commands.push(command.data.toJSON());
-    });
+    const command = await import(filePath);
+    if (!command.data || !command.execute) throw new Error(`command ${file} is missing a required "data" or "execute" property.`);
+    commands.push(command.data.toJSON());
 }
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 try {
     console.log(`Started refreshing ${commands.length} application (/) commands.`);
+
+    if(commands.length === 0) throw new Error("no commands found");
 
     await rest.put(
         Routes.applicationCommands(CLIENT_ID),
