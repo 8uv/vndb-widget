@@ -35,7 +35,7 @@ export async function execute(interaction: Interaction) {
     const top_three = rated.slice(0, 3);
 
     for (let i = 0; i < top_three.length; i++) { // TODO this will cause errors if there are not at least 3 entries, fix later
-        if (i === 0) dynamic_data.push({ type: WidgetDataTypes.String, name: "mini_data_string", value: `Highest Rated: ${top_three[i]!.vn.title}` });
+        if (i === 0) dynamic_data.push({ type: WidgetDataTypes.String, name: "mini_data_string", value: top_three[i]!.vn.title });
         dynamic_data.push({ type: WidgetDataTypes.String, name: `rated_${i + 1}_name` as any, value: top_three[i]!.vn.title });
     };
 

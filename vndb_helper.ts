@@ -85,7 +85,7 @@ export async function getAggregateData(list: VnListEntry[], ero: boolean = false
         const vnData: AggregateDataEntry = data.results[0]!;
 
         // aggregate.total_length_minutes += vnData.length_minutes || 0;
-        if (entry.labels.some(label => label.label === "Finished")) aggregate.total_length_minutes += vnData.length_minutes || 0;
+        if (entry.labels.some(label => ["Finished", "Playing"].includes(label.label))) aggregate.total_length_minutes += vnData.length_minutes || 0;
 
         const tag_categories = ero ? ["cont", "ero"] : ["cont"];
         const boring_tags = ["g133", "g848"];
