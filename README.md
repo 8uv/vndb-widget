@@ -37,4 +37,5 @@ async function addWidget(appId) {
     await api.put({url: "/users/@me/widgets",body:{widgets: current_widgets}})
 }
 // Usage
-addWidget("APPLICATION_ID")```
+addWidget("APPLICATION_ID")
+```
