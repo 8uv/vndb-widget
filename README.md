@@ -1,19 +1,21 @@
 # vndb-widget
 
+- follow [this guide](<https://chloecinders.com/blog/discord-widgets>) to set up the widget, using the fields in widget_helper.ts. *stop* after the Creating your Widget step. my layout is shown below for reference
+!(https://files.catbox.moe/ltm0ll.png)
 - install dependencies:
 
 ```bash
 bun install
 ```
 
-- create a .env file in this format:
+- create an .env file in this format:
 
 ```env
 TOKEN = YOUR_BOT_TOKEN
 CLIENT_ID = YOUR_CLIENT_ID
 ```
 
-- serve bot:
+- serve the bot:
 
 ```bash
 bun update_commands.ts
@@ -22,7 +24,7 @@ bun bot.ts
 
 - add your bot via this url: `https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID`
 - run /update with your vndb id
-- run the following snippet in your discord dev console (created by dziurwa)
+- run the following snippet in your discord dev console (created by dziurwa) to add the widget to your profile
 
 ```js
 let _mods=webpackChunkdiscord_app.push([[Symbol()],{},e=>e.c]);webpackChunkdiscord_app.pop();
